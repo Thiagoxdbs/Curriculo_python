@@ -1,37 +1,25 @@
-from fpdf import FPDF
+from docx import Document
+from docx.shared import Pt
 
-class PDF(FPDF):
-    def header(self):
-        self.set_font('Arial', 'B', 12)
-        self.cell(0, 10, 'Thiago Alexsandro Bianchi de Souza', 0, 1, 'C')
-        self.set_font('Arial', '', 10)
-        self.cell(0, 10, '(11) 98812-4773 | Thiago-hiago201@hotmail.com', 0, 1, 'C')
-        self.ln(10)
+# Cria um novo documento Word
+doc = Document()
 
-    def chapter_title(self, title):
-        self.set_font('Arial', 'B', 12)
-        self.cell(0, 10, title, 0, 1, 'L')
-        self.ln(4)
+# Adiciona o cabeçalho
+doc.add_heading('Thiago Alexsandro Bianchi de Souza', 0)
 
-    def chapter_body(self, body):
-        self.set_font('Arial', '', 10)
-        self.multi_cell(0, 10, body)
-        self.ln()
+# Adiciona informações de contato
+doc.add_paragraph('(11) 98812-4773')
+doc.add_paragraph('Thiago-hiago201@hotmail.com')
 
-pdf = PDF()
-pdf.add_page()
-
-# Objetivo
-pdf.chapter_title('Objetivo')
-objetivo = (
+# Adiciona o objetivo
+doc.add_heading('Objetivo', level=1)
+doc.add_paragraph(
     "Contribuir para a sustentação de ambientes com foco em MongoDB, aplicando meus conhecimentos "
     "em instalação, configuração, suporte e migração de bancos de dados, visando a eficiência e a performance do sistema."
 )
-pdf.chapter_body(objetivo)
 
-# Experiência Profissional
-pdf.chapter_title('Experiência Profissional')
-
+# Adiciona a experiência profissional
+doc.add_heading('Experiência Profissional', level=1)
 experiencias = [
     ("Analista Computacional - Tecnocomp LTDA", "16/05/2023 - Atual",
      "- Automação de processos utilizando Python (bibliotecas Selenium, Pandas, Pynput)\n"
@@ -48,22 +36,20 @@ experiencias = [
      "- Desenvolvimento de planos estratégicos em redes com Excel e Google Data Studio\n"
      "- Automação web utilizando Python"),
 
-    ("Estagiário de Help Desk - Câmara Municipal dos Vereadores", "24/09/2020 – 31/12/2020",
+    ("Estagiário de Help Desk - Câmara Municipal dos Vereadores", "24/09/2020 - 31/12/2020",
      "- Suporte técnico N1 e N2"),
 
-    ("Estagiário de Help Desk - Liberty Parking", "02/2019 – 12/2019",
+    ("Estagiário de Help Desk - Liberty Parking", "02/2019 - 12/2019",
      "- Suporte técnico N1 e N2"),
 ]
 
 for title, date, desc in experiencias:
-    pdf.set_font('Arial', 'B', 10)
-    pdf.cell(0, 10, f'{title} ({date})', 0, 1)
-    pdf.set_font('Arial', '', 10)
-    pdf.multi_cell(0, 10, desc)
-    pdf.ln()
+    doc.add_heading(title, level=2)
+    doc.add_paragraph(f'Data: {date}')
+    doc.add_paragraph(desc)
 
-# Habilidades Técnicas
-pdf.chapter_title('Habilidades Técnicas')
+# Adiciona habilidades técnicas
+doc.add_heading('Habilidades Técnicas', level=1)
 habilidades = (
     "- Bancos de Dados: MongoDB, MySQL, PostgreSQL\n"
     "- Sistemas Operacionais: Red Hat Enterprise Linux (RHEL), Windows Server\n"
@@ -72,18 +58,14 @@ habilidades = (
     "- Desenvolvimento Web: HTML, JavaScript\n"
     "- Outros: Power BI, Pacote Office, Excel Avançado, Google Analytics"
 )
-pdf.chapter_body(habilidades)
+doc.add_paragraph(habilidades)
 
-# Formação Acadêmica
-pdf.chapter_title('Formação Acadêmica')
-formacao = (
-    "- Engenharia da Computação (Conclusão em 06/2024)"
-)
-pdf.chapter_body(formacao)
+# Adiciona formação acadêmica
+doc.add_heading('Formação Acadêmica', level=1)
+doc.add_paragraph("- Engenharia da Computação (Conclusão em 06/2024)")
 
-# Certificações e Cursos
-pdf.chapter_title('Certificações e Cursos')
-
+# Adiciona certificações e cursos
+doc.add_heading('Certificações e Cursos', level=1)
 cursos = (
     "- Python: \n"
     "  - Mundo 1, 2, 3 Python 3 – Curso em Vídeo - 120H\n"
@@ -94,17 +76,13 @@ cursos = (
     "- Programação: Potência Tech iFood - Programação do Zero - DIO - 68H\n"
     "- Outros: Web Design, Desenvolvimento Web com PHP, Banco de Dados MySQL, Contabilidade Tributária"
 )
-pdf.chapter_body(cursos)
+doc.add_paragraph(cursos)
 
-# Idiomas
-pdf.chapter_title('Idiomas')
-idiomas = (
-    "- Inglês: Intermediário"
-)
-pdf.chapter_body(idiomas)
+# Adiciona idiomas
+doc.add_heading('Idiomas', level=1)
+doc.add_paragraph("- Inglês: Intermediário")
 
-# Save PDF
-pdf_output = "Curriculo_Thiago_Alexsandro_Bianchi_de_Souza.pdf"
-pdf.output(pdf_output)
+# Salva o arquivo Word
+doc.save('Curriculo_Thiago_Alexsandro_Bianchi_de_Souza.docx')
 
-print(f"PDF gerado com sucesso: {pdf_output}")
+print("Arquivo Word gerado com sucesso!")
